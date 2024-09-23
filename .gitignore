@@ -1,0 +1,9 @@
+node_modules
+coverage
+dist
+.env
+.DS_Store
+*.log
+*.tmp
+*.swp
+TODO.md

@@ -1,0 +1,53 @@
+{
+  "name": "tempora",
+  "version": "0.0.1",
+  "description": "A versatile CLI tool to scaffold projects in any language or framework.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\"",
+    "format": "prettier --write .",
+    "prepare": "pnpm husky",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "commit": "git cz"
+  },
+  "packageManager": "pnpm@9.7.1",
+  "engines": {
+    "npm": "please-use-pnpm",
+    "yarn": "please-use-pnpm",
+    "pnpm": ">= 9.7.1",
+    "node": "20.11.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@eslint/js": "^9.11.0",
+    "commitizen": "^4.3.0",
+    "eslint": "^9.11.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.9.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "typescript-eslint": "^8.6.0"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "prettier": {
+    "singleQuote": false,
+    "semi": false
+  }
+}
