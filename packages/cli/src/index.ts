@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander'
-import { registerInitCommand } from './commands'
-import { checkVersion } from './utils/versionCheck'
+import { registerInitCommand } from './commands/index.js'
+import { checkVersion } from '@utils'
 
 const program = new Command()
 
@@ -20,7 +20,6 @@ Examples:
 
 registerInitCommand(program)
 
-// async version check — fires and forgets, never blocks the command
 checkVersion().catch(() => undefined)
 
 program.parse(process.argv)

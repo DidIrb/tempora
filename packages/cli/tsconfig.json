@@ -4,9 +4,12 @@
     "outDir": "dist",
     "rootDir": "src",
     "paths": {
-      "@appTypes": ["./types/index.ts"],
-      "@utils": ["./utils/index.ts"],
-      "@shared": ["./shared/index.ts"]
+      "@appTypes": ["./src/types/index.ts"],
+      "@appTypes/*": ["./src/types/*"],
+      "@utils": ["./src/utils/index.ts"],
+      "@utils/*": ["./src/utils/*"],
+      "@shared": ["./src/shared/index.ts"],
+      "@shared/*": ["./src/shared/*"]
     }
   },
   "include": ["src/**/*"]
