@@ -3,11 +3,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "baseUrl": "src",
     "paths": {
-      "@appTypes": ["types/index.ts"],
-      "@utils": ["utils/index.ts"],
-      "@shared": ["shared/index.ts"]
+      "@appTypes": ["./types/index.ts"],
+      "@utils": ["./utils/index.ts"],
+      "@shared": ["./shared/index.ts"]
     }
   },
   "include": ["src/**/*"]

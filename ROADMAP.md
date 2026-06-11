@@ -17,10 +17,10 @@
 ---
 
 ## Stage 2a — CLI Scaffold + Global Install
-- [ ] Entry point wired up with commander
-- [ ] `tempora --help` and `tempora --version` working
-- [ ] `pnpm link` or `npm install -g` — runs as real global `tempora` command
-- [ ] esbuild producing `dist/index.js` with correct shebang
+- [x] Entry point wired up with commander
+- [x] `tempora --help` and `tempora --version` working
+- [x] `pnpm link` or `npm install -g` — runs as real global `tempora` command
+- [x] esbuild producing `dist/index.cjs` with correct shebang
 
 ## Stage 2b — `tempora init <template>` Direct Path
 - [ ] Download single template folder from GitHub using registry path
