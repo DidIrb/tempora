@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { Command } from 'commander'
 import { registerInitCommand } from './commands/index.js'
 import { checkVersion } from '@utils'

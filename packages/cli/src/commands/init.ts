@@ -1,42 +1,55 @@
 import { Command } from 'commander'
 import ora from 'ora'
-import { logger, resolveTargetDir, downloadTemplate, printPostInstall, fetchRegistry } from '@utils'
+import {
+  logger,
+  resolveTargetDir,
+  downloadTemplate,
+  printPostInstall,
+  fetchRegistry,
+  runGuidedSelection,
+} from '@utils'
 
 export function registerInitCommand(program: Command): void {
   program
     .command('init [template] [directory]')
     .description('Scaffold a new project from a Tempora template')
-    .option('-l, --language <language>', 'Filter by language')
-    .option('-c, --category <category>', 'Filter by category')
     .action(async (template?: string, directory?: string) => {
       const spinner = ora()
 
       try {
+        // -- fetch registry
         spinner.start('Loading registry...')
         const registry = await fetchRegistry()
         spinner.stop()
 
-        if (!template) {
-          logger.info('Guided mode coming in Stage 2c.')
-          logger.log('Usage: tempora init <template> [directory]')
-          logger.log('Browse templates at https://tempora.dev/templates')
-          return
+        let resolvedTemplate = template
+        let resolvedDirectory = directory
+
+        // -- guided mode if no template given
+        if (!resolvedTemplate) {
+          const entry = await runGuidedSelection(registry)
+          if (!entry) return
+          resolvedTemplate = entry.id
         }
 
-        const entry = registry.templates[template]
+        // -- look up template
+        const entry = registry.templates[resolvedTemplate]
         if (!entry) {
-          logger.error(`Template "${template}" not found.`)
+          logger.error(`Template "${resolvedTemplate}" not found.`)
           logger.log('Browse all templates at https://tempora.dev/templates')
           process.exit(1)
         }
 
-        const targetDir = await resolveTargetDir(directory)
+        // -- resolve target directory
+        const targetDir = await resolveTargetDir(resolvedDirectory)
         if (!targetDir) return
 
+        // -- download
         spinner.start(`Scaffolding ${entry.name}...`)
         await downloadTemplate(entry, targetDir)
         spinner.stop()
 
+        // -- post install
         printPostInstall(entry, targetDir)
       } catch (err) {
         spinner.stop()

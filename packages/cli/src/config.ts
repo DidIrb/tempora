@@ -1,14 +1,6 @@
-import 'dotenv/config'
-
-function required(key: string): string {
-  const value = process.env[key]
-  if (!value) throw new Error(`Missing required environment variable: ${key}`)
-  return value
-}
-
-const org = required('TEMPORA_GITHUB_ORG')
-const repo = required('TEMPORA_GITHUB_REPO')
-const branch = required('TEMPORA_GITHUB_BRANCH')
+const org = 'your-org'
+const repo = 'tempora'
+const branch = 'main'
 
 export const config = {
   github: {
@@ -21,6 +13,6 @@ export const config = {
     cliPkgUrl: `https://raw.githubusercontent.com/${org}/${repo}/${branch}/packages/cli/package.json`,
   },
   docs: {
-    url: process.env['TEMPORA_DOCS_URL'] ?? 'https://tempora.dev/templates',
+    url: 'https://tempora.dev/templates',
   },
 } as const
