@@ -5,9 +5,10 @@ import {
   resolveTargetDir,
   downloadTemplate,
   printPostInstall,
-  fetchRegistry,
+  loadRegistry,
   runGuidedSelection,
 } from '@utils'
+import { config } from '../config.js'
 
 export function registerInitCommand(program: Command): void {
   program
@@ -17,39 +18,31 @@ export function registerInitCommand(program: Command): void {
       const spinner = ora()
 
       try {
-        // -- fetch registry
-        spinner.start('Loading registry...')
-        const registry = await fetchRegistry()
-        spinner.stop()
+        const registry = loadRegistry()
 
         let resolvedTemplate = template
         let resolvedDirectory = directory
 
-        // -- guided mode if no template given
         if (!resolvedTemplate) {
           const entry = await runGuidedSelection(registry)
           if (!entry) return
           resolvedTemplate = entry.id
         }
 
-        // -- look up template
         const entry = registry.templates[resolvedTemplate]
         if (!entry) {
           logger.error(`Template "${resolvedTemplate}" not found.`)
-          logger.log('Browse all templates at https://tempora.dev/templates')
+          logger.log(`Browse all templates at ${config.docs.url}`)
           process.exit(1)
         }
 
-        // -- resolve target directory
         const targetDir = await resolveTargetDir(resolvedDirectory)
         if (!targetDir) return
 
-        // -- download
         spinner.start(`Scaffolding ${entry.name}...`)
         await downloadTemplate(entry, targetDir)
-        spinner.stop()
+        spinner.succeed(`${entry.name} scaffolded successfully!`)
 
-        // -- post install
         printPostInstall(entry, targetDir)
       } catch (err) {
         spinner.stop()

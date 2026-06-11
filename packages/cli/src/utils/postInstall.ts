@@ -6,8 +6,7 @@ export function printPostInstall(template: TemplateEntry, targetDir: string): vo
   const isCwd = path.resolve(targetDir) === path.resolve(process.cwd())
   const dirName = isCwd ? null : path.basename(targetDir)
 
-  logger.success(`${template.name} scaffolded successfully!\n`)
-  logger.log(`  ${template.description}\n`)
+  logger.log(`\n  ${template.description}\n`)
   logger.log('  Next steps:\n')
 
   if (dirName) {

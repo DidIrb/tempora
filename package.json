@@ -8,7 +8,6 @@
     "build": "npm --prefix packages/cli run build",
     "dev": "npm --prefix packages/cli run dev",
     "lint": "npm --prefix packages/cli run lint",
-    "registry:build": "tsx scripts/buildRegistry.ts",
     "docs:sync": "tsx scripts/syncDocs.ts",
     "commit": "git-cz"
   },
