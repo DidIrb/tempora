@@ -5,9 +5,9 @@
   "description": "Tempora monorepo root",
   "scripts": {
     "prepare": "husky",
-    "build": "pnpm --filter @tempora/cli build",
-    "dev": "pnpm --filter @tempora/cli dev",
-    "lint": "pnpm --filter @tempora/cli lint",
+    "build": "npm --prefix packages/cli run build",
+    "dev": "npm --prefix packages/cli run dev",
+    "lint": "npm --prefix packages/cli run lint",
     "registry:build": "tsx scripts/buildRegistry.ts",
     "docs:sync": "tsx scripts/syncDocs.ts",
     "commit": "git-cz"
