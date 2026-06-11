@@ -1,0 +1,9 @@
+{
+  "id": "nextjs-tailwind",
+  "name": "Next.js + Tailwind",
+  "language": "typescript",
+  "category": "fullstack",
+  "description": "Next.js 14 app router with Tailwind CSS and Prettier preconfigured.",
+  "tags": ["nextjs", "tailwind", "typescript", "react"],
+  "version": "1.0.0"
+}

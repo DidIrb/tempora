@@ -1,0 +1,27 @@
+{
+  "name": "@tempora/cli",
+  "version": "0.1.0",
+  "description": "Tempora CLI — scaffold projects from curated templates",
+  "main": "dist/index.js",
+  "bin": {
+    "tempora": "dist/index.js"
+  },
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --outfile=dist/index.js --external:inquirer",
+    "dev": "tsx src/index.ts",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "inquirer": "^9.0.0",
+    "ora": "^8.0.0",
+    "picocolors": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.20.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.4.0"
+  }
+}
