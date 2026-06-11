@@ -5,9 +5,7 @@ import { createWriteStream } from 'fs'
 import { Readable } from 'stream'
 import { logger } from '@utils'
 import type { TemplateEntry } from '@appTypes'
-
-const GITHUB_API = 'https://api.github.com/repos/your-org/tempora/contents'
-const GITHUB_RAW = 'https://raw.githubusercontent.com/your-org/tempora/main'
+import { config } from '../config.js'
 
 interface GithubEntry {
   type: 'file' | 'dir'
@@ -16,7 +14,7 @@ interface GithubEntry {
 }
 
 async function fetchDirContents(apiPath: string): Promise<GithubEntry[]> {
-  const res = await fetch(`${GITHUB_API}/${apiPath}`, {
+  const res = await fetch(`${config.github.apiBase}/${apiPath}`, {
     headers: { Accept: 'application/vnd.github+json' },
     signal: AbortSignal.timeout(10000),
   })
@@ -25,12 +23,15 @@ async function fetchDirContents(apiPath: string): Promise<GithubEntry[]> {
 }
 
 async function downloadFile(remotePath: string, localPath: string): Promise<void> {
-  const res = await fetch(`${GITHUB_RAW}/${remotePath}`, {
+  const res = await fetch(`${config.github.rawBase}/${remotePath}`, {
     signal: AbortSignal.timeout(10000),
   })
   if (!res.ok) throw new Error(`Failed to download ${remotePath}: ${res.status}`)
   fs.mkdirSync(path.dirname(localPath), { recursive: true })
-  await pipeline(Readable.fromWeb(res.body as import('stream/web').ReadableStream), createWriteStream(localPath))
+  await pipeline(
+    Readable.fromWeb(res.body as import('stream/web').ReadableStream),
+    createWriteStream(localPath)
+  )
 }
 
 async function downloadDir(remotePath: string, localPath: string): Promise<void> {

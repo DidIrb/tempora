@@ -4,11 +4,12 @@
   "private": true,
   "description": "Tempora monorepo root",
   "scripts": {
+    "prepare": "husky",
     "build": "pnpm --filter @tempora/cli build",
     "dev": "pnpm --filter @tempora/cli dev",
     "lint": "pnpm --filter @tempora/cli lint",
-    "registry:build": "pnpm tsx scripts/buildRegistry.ts",
-    "docs:sync": "pnpm tsx scripts/syncDocs.ts",
+    "registry:build": "tsx scripts/buildRegistry.ts",
+    "docs:sync": "tsx scripts/syncDocs.ts",
     "commit": "git-cz"
   },
   "devDependencies": {
