@@ -5,10 +5,12 @@
   "description": "Tempora monorepo root",
   "scripts": {
     "prepare": "husky",
-    "build": "npm --prefix packages/cli run build",
+    "build": "npm --prefix packages/cli run build && npm run docs:sync",
     "dev": "npm --prefix packages/cli run dev",
     "lint": "npm --prefix packages/cli run lint",
     "docs:sync": "tsx scripts/syncDocs.ts",
+    "docs:dev": "npm --prefix apps/docs run dev",
+    "docs:build": "npm run docs:sync && npm --prefix apps/docs run build",
     "commit": "git-cz"
   },
   "devDependencies": {
