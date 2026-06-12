@@ -3,38 +3,52 @@ title: Tempora
 ---
 
 import { Callout } from 'nextra-theme-docs'
+import styles from '../styles/home.module.css'
 
-# Tempora
+<div className={styles.hero}>
+  <h1 className={styles.title}>Tempora</h1>
+  <p className={styles.tagline}>Scaffold any project from curated templates in one command.</p>
+  <div className={styles.actions}>
+    <a className={styles.primary} href="/getting-started">Get Started →</a>
+    <a className={styles.secondary} href="/templates">Browse Templates</a>
+  </div>
+</div>
 
-**Scaffold projects from curated templates in one command.**
-
-Tempora is a CLI tool that lets you instantly bootstrap any project from a growing vault of community-driven templates — no cloning repos, no manual setup, no guesswork.
+<div className={styles.code}>
 
 ```bash
 npm install -g @tempora/cli
 tempora init
 ```
 
+</div>
+
 ## Why Tempora?
 
-- **Fast** — registry is bundled with the CLI, no API calls needed to browse templates
-- **Language agnostic** — TypeScript, Python, Go, and more
-- **Consistent** — every template follows known conventions and is tested
-- **Tiny install** — only the template you pick is downloaded, not the entire vault
+<div className={styles.features}>
 
-## Quick example
+<div className={styles.feature}>
+  <h3>⚡ Instant</h3>
+  <p>Registry is bundled with the CLI. No API calls, no waiting — just pick and scaffold.</p>
+</div>
 
-```bash
-# scaffold into a new folder
-tempora init nextjs-tailwind my-app
+<div className={styles.feature}>
+  <h3>🌐 Language agnostic</h3>
+  <p>TypeScript, Python, Go and more. One tool for every stack.</p>
+</div>
 
-# scaffold into current folder
-tempora init nextjs-tailwind .
+<div className={styles.feature}>
+  <h3>🎯 Focused</h3>
+  <p>One-shot scaffolding. Pick a template, get a project, done. No ongoing management.</p>
+</div>
 
-# guided mode — pick language, category, template
-tempora init
-```
+<div className={styles.feature}>
+  <h3>📦 Tiny</h3>
+  <p>Only the template folder you pick is downloaded. Not the whole repo.</p>
+</div>
+
+</div>
 
 <Callout type="info">
-  Tempora requires Node.js 18 or higher.
+  Tempora requires Node.js 18+ and git installed on your machine.
 </Callout>

@@ -2,16 +2,15 @@
   "name": "tempora",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "description": "Tempora monorepo root",
   "scripts": {
     "prepare": "husky",
-    "registry:build": "tsx scripts/buildRegistry.ts",
-    "build": "npm run registry:build && npm --prefix packages/cli run build && npm run docs:sync",
+    "build": "npm --prefix packages/cli run build && npm --prefix apps/docs run build",
     "dev": "npm --prefix packages/cli run dev",
-    "lint": "npm --prefix packages/cli run lint",
-    "docs:sync": "tsx scripts/syncDocs.ts",
     "docs:dev": "npm --prefix apps/docs run dev",
-    "docs:build": "npm run docs:sync && npm --prefix apps/docs run build",
+    "docs:build": "npm --prefix apps/docs run build",
+    "lint": "npm --prefix packages/cli run lint",
     "commit": "git-cz"
   },
   "devDependencies": {
@@ -20,8 +19,13 @@
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^9.0.0",
-    "tsx": "^4.0.0",
     "typescript": "^5.4.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^18.2.0",
+      "@types/react-dom": "^18.2.0"
+    }
   },
   "config": {
     "commitizen": {
@@ -29,6 +33,10 @@
     }
   },
   "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
+    "extends": ["@commitlint/config-conventional"],
+    "rules": {
+      "scope-empty": [0],
+      "scope-case": [0]
+    }
   }
 }

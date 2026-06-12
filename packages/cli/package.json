@@ -2,6 +2,7 @@
   "name": "@tempora/cli",
   "version": "0.1.0",
   "description": "Tempora CLI — scaffold projects from curated templates",
+  "license": "MIT",
   "type": "module",
   "engines": {
     "node": ">=18.0.0"
@@ -15,10 +16,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup && node copy-registry.mjs",
+    "build": "tsup && node scripts/buildRegistry.mjs",
     "dev": "tsx src/index.ts",
-    "lint": "tsc --noEmit",
-    "typecheck": "tsc --noEmit"
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
     "chalk": "^5.3.0",

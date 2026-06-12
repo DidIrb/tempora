@@ -4,7 +4,8 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const CLI_ROOT = path.resolve(__dirname, '..')
-const TEMPLATES_DIR = path.resolve(CLI_ROOT, '../../templates')
+const REPO_ROOT = path.resolve(CLI_ROOT, '../..')
+const TEMPLATES_DIR = path.resolve(REPO_ROOT, 'templates')
 const OUTPUT_FILE = path.resolve(CLI_ROOT, 'dist/registry.json')
 
 function findTemporaConfigs(dir) {
@@ -12,33 +13,18 @@ function findTemporaConfigs(dir) {
   const results = []
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const fullPath = path.join(dir, entry.name)
-    if (entry.isDirectory()) {
-      results.push(...findTemporaConfigs(fullPath))
-    } else if (entry.name === 'tempora.json') {
-      results.push(fullPath)
-    }
+    if (entry.isDirectory()) results.push(...findTemporaConfigs(fullPath))
+    else if (entry.name === 'tempora.json') results.push(fullPath)
   }
   return results
 }
 
-function validateConfig(config, filePath) {
-  const required = ['id', 'name', 'language', 'category', 'description', 'tags', 'version']
-  for (const key of required) {
-    if (!config[key]) {
-      console.error(`  ✖ Missing field "${key}" in ${filePath}`)
-      return false
-    }
-  }
-  return true
-}
-
 function build() {
-  console.log('\nBuilding registry...\n')
-
+  console.log('Building registry...\n')
   const configPaths = findTemporaConfigs(TEMPLATES_DIR)
 
   if (configPaths.length === 0) {
-    console.warn('  No tempora.json files found in templates/.')
+    console.warn('  No tempora.json files found.')
     return
   }
 
@@ -54,26 +40,24 @@ function build() {
   let skipped = 0
 
   for (const configPath of configPaths) {
-    const raw = fs.readFileSync(configPath, 'utf-8')
     let parsed
-
     try {
-      parsed = JSON.parse(raw)
+      parsed = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
     } catch {
       console.error(`  ✖ Invalid JSON in ${configPath}`)
       skipped++
       continue
     }
 
-    if (!validateConfig(parsed, configPath)) {
+    const required = ['id', 'name', 'language', 'category', 'description', 'tags', 'version']
+    const missing = required.filter(k => !parsed[k])
+    if (missing.length > 0) {
+      console.error(`  ✖ Missing fields [${missing.join(', ')}] in ${configPath}`)
       skipped++
       continue
     }
 
-    const relativePath = path
-      .relative(path.resolve(CLI_ROOT, '../..'), path.dirname(configPath))
-      .replace(/\\/g, '/')
-
+    const relativePath = path.relative(REPO_ROOT, path.dirname(configPath)).replace(/\\/g, '/')
     registry.templates[parsed.id] = { ...parsed, path: relativePath }
 
     if (!registry.byLanguage[parsed.language]) registry.byLanguage[parsed.language] = []
