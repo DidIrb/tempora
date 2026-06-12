@@ -39,7 +39,11 @@ Every template needs a `tempora.json` at its root:
   "category": "fullstack",
   "description": "A short description of what this template gives you.",
   "tags": ["tag1", "tag2"],
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "nextSteps": [
+    "pnpm install",
+    "pnpm dev"
+  ]
 }
 ```
 
@@ -52,22 +56,21 @@ Every template needs a `tempora.json` at its root:
 | `description` | ✔ | One sentence description |
 | `tags` | ✔ | Array of relevant tags |
 | `version` | ✔ | Semver string |
+| `nextSteps` | — | Commands printed after scaffold. Defaults to `pnpm install` and `pnpm dev` if omitted. |
 
 ### Add a README.md
 
-The `README.md` is auto-synced to this docs site. Include:
-- What the template gives you
-- Stack and versions
-- How to run it after scaffolding
+The `README.md` is synced automatically to this docs site. Include the stack, versions, and how to run the project. That is all users need — keep it focused.
 
 ### Rebuild and verify
 
 ```bash
+npm run registry:build
 npm run build
 tempora init your-template test-output
 ```
 
-Confirm the scaffold works end to end.
+Confirm the scaffold works end to end locally before opening a PR.
 
 ### Open a pull request
 
@@ -78,10 +81,8 @@ git commit -m "feat(templates): add your-template"
 git push
 ```
 
-Then open a PR against `main`.
-
 <Callout type="info">
-  The registry is rebuilt automatically as part of `npm run build` — you do not need to edit `registry.json` manually.
+  The registry is rebuilt as part of the build process. You do not need to edit registry.json manually.
 </Callout>
 
 </Steps>

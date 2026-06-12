@@ -1,8 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { pipeline } from 'stream/promises'
-import { createWriteStream } from 'fs'
-import { Readable } from 'stream'
+import { execSync } from 'child_process'
 import { fileURLToPath } from 'url'
 import type { TemplateEntry } from '@appTypes'
 import { config } from '../config.js'
@@ -33,42 +31,34 @@ function copyDirLocal(srcDir: string, destDir: string, overwrite: boolean): void
   }
 }
 
-interface GithubEntry {
-  type: 'file' | 'dir'
-  name: string
-  path: string
-}
+function cloneTemplateSparse(templatePath: string, targetDir: string, overwrite: boolean): void {
+  const repoUrl = `https://github.com/${config.github.org}/${config.github.repo}.git`
+  const tmpDir = path.join(targetDir, '.tempora-tmp')
 
-async function fetchDirContents(apiPath: string): Promise<GithubEntry[]> {
-  const res = await fetch(`${config.github.apiBase}/${apiPath}`, {
-    headers: { Accept: 'application/vnd.github+json' },
-    signal: AbortSignal.timeout(10000),
-  })
-  if (!res.ok) throw new Error(`GitHub API error: ${res.status}`)
-  return res.json() as Promise<GithubEntry[]>
-}
+  try {
+    fs.mkdirSync(tmpDir, { recursive: true })
 
-async function downloadFile(remotePath: string, localPath: string, overwrite: boolean): Promise<void> {
-  if (!overwrite && fs.existsSync(localPath)) return
-  const res = await fetch(`${config.github.rawBase}/${remotePath}`, {
-    signal: AbortSignal.timeout(10000),
-  })
-  if (!res.ok) throw new Error(`Failed to download ${remotePath}: ${res.status}`)
-  fs.mkdirSync(path.dirname(localPath), { recursive: true })
-  await pipeline(
-    Readable.fromWeb(res.body as import('stream/web').ReadableStream),
-    createWriteStream(localPath)
-  )
-}
+    // sparse clone — only fetch the specific template folder
+    execSync(`git clone --filter=blob:none --sparse --depth=1 ${repoUrl} .`, {
+      cwd: tmpDir,
+      stdio: 'pipe',
+    })
 
-async function downloadDirRemote(remotePath: string, localPath: string, overwrite: boolean): Promise<void> {
-  const entries = await fetchDirContents(remotePath)
-  for (const entry of entries) {
-    if (entry.type === 'file') {
-      await downloadFile(entry.path, path.join(localPath, entry.name), overwrite)
-    } else if (entry.type === 'dir') {
-      await downloadDirRemote(entry.path, path.join(localPath, entry.name), overwrite)
+    execSync(`git sparse-checkout set ${templatePath}`, {
+      cwd: tmpDir,
+      stdio: 'pipe',
+    })
+
+    // copy from the cloned sparse folder into targetDir
+    const clonedTemplatePath = path.join(tmpDir, templatePath)
+    if (!fs.existsSync(clonedTemplatePath)) {
+      throw new Error(`Template path "${templatePath}" not found in repository.`)
     }
+
+    copyDirLocal(clonedTemplatePath, targetDir, overwrite)
+  } finally {
+    // always clean up tmp folder
+    fs.rmSync(tmpDir, { recursive: true, force: true })
   }
 }
 
@@ -86,9 +76,8 @@ export async function downloadTemplate(
       copyDirLocal(localSrc, targetDir, overwrite)
       return
     }
-    // local templates dir exists but template not found — do not fall through to GitHub
     throw new Error(`Template "${template.id}" not found in local templates folder.`)
   }
 
-  await downloadDirRemote(template.path, targetDir, overwrite)
+  cloneTemplateSparse(template.path, targetDir, overwrite)
 }

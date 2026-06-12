@@ -15,7 +15,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup && node scripts/buildRegistry.mjs",
+    "build": "tsup && node copy-registry.mjs",
     "dev": "tsx src/index.ts",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit"
