@@ -1,0 +1,87 @@
+---
+title: Add a Template
+---
+
+import { Callout, Steps } from 'nextra-theme-docs'
+
+# Add a Template
+
+Anyone can contribute a template to Tempora. Here is how.
+
+<Steps>
+
+### Fork the repository
+
+Fork [tempora on GitHub](https://github.com/your-org/tempora) and clone it locally.
+
+### Create your template folder
+
+Templates live under `templates/<language>/<template-name>/`:
+
+```
+templates/
+  typescript/
+    your-template/
+      tempora.json
+      README.md
+      ... starter files
+```
+
+### Add a tempora.json
+
+Every template needs a `tempora.json` at its root:
+
+```json
+{
+  "id": "your-template",
+  "name": "Your Template Name",
+  "language": "typescript",
+  "category": "fullstack",
+  "description": "A short description of what this template gives you.",
+  "tags": ["tag1", "tag2"],
+  "version": "1.0.0"
+}
+```
+
+| Field | Required | Description |
+| --- | --- | --- |
+| `id` | ✔ | Unique kebab-case identifier |
+| `name` | ✔ | Human readable name |
+| `language` | ✔ | Primary language e.g. `typescript`, `python` |
+| `category` | ✔ | e.g. `fullstack`, `frontend`, `backend` |
+| `description` | ✔ | One sentence description |
+| `tags` | ✔ | Array of relevant tags |
+| `version` | ✔ | Semver string |
+
+### Add a README.md
+
+The `README.md` is auto-synced to this docs site. Include:
+- What the template gives you
+- Stack and versions
+- How to run it after scaffolding
+
+### Rebuild and verify
+
+```bash
+npm run build
+tempora init your-template test-output
+```
+
+Confirm the scaffold works end to end.
+
+### Open a pull request
+
+```bash
+git checkout -b feat/add-your-template
+git add .
+git commit -m "feat(templates): add your-template"
+git push
+```
+
+Then open a PR against `main`.
+
+<Callout type="info">
+  The registry is rebuilt automatically as part of `npm run build` — you do not need to edit `registry.json` manually.
+</Callout>
+
+</Steps>

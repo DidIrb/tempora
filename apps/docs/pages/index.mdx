@@ -1,0 +1,40 @@
+---
+title: Tempora
+---
+
+import { Callout } from 'nextra-theme-docs'
+
+# Tempora
+
+**Scaffold projects from curated templates in one command.**
+
+Tempora is a CLI tool that lets you instantly bootstrap any project from a growing vault of community-driven templates — no cloning repos, no manual setup, no guesswork.
+
+```bash
+npm install -g @tempora/cli
+tempora init
+```
+
+## Why Tempora?
+
+- **Fast** — registry is bundled with the CLI, no API calls needed to browse templates
+- **Language agnostic** — TypeScript, Python, Go, and more
+- **Consistent** — every template follows known conventions and is tested
+- **Tiny install** — only the template you pick is downloaded, not the entire vault
+
+## Quick example
+
+```bash
+# scaffold into a new folder
+tempora init nextjs-tailwind my-app
+
+# scaffold into current folder
+tempora init nextjs-tailwind .
+
+# guided mode — pick language, category, template
+tempora init
+```
+
+<Callout type="info">
+  Tempora requires Node.js 18 or higher.
+</Callout>
