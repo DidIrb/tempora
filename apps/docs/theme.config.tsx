@@ -19,19 +19,9 @@ const config: DocsThemeConfig = {
     </>
   ),
   footer: {
-    text: (
-      <span>
-        MIT {new Date().getFullYear()} ©{' '}
-        <a href="https://github.com/your-org/tempora" target="_blank">
-          Tempora
-        </a>
-      </span>
-    ),
+    text: <span>MIT © {new Date().getFullYear()} Tempora</span>,
   },
   sidebar: {
-    titleComponent({ title }) {
-      return <>{title}</>
-    },
     defaultMenuCollapseLevel: 1,
   },
 }

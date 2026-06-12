@@ -3,13 +3,22 @@ import path from 'path'
 import inquirer from 'inquirer'
 import { logger } from '@utils'
 
-export async function resolveTargetDir(directory?: string): Promise<string | null> {
+export interface TargetDirResult {
+  targetDir: string
+  overwrite: boolean
+}
+
+export async function resolveTargetDir(directory?: string): Promise<TargetDirResult | null> {
   const target = path.resolve(process.cwd(), directory ?? '.')
 
-  if (!fs.existsSync(target)) return target
+  if (!fs.existsSync(target)) {
+    return { targetDir: target, overwrite: false }
+  }
 
   const entries = fs.readdirSync(target).filter(f => f !== '.git' && f !== '.DS_Store')
-  if (entries.length === 0) return target
+  if (entries.length === 0) {
+    return { targetDir: target, overwrite: false }
+  }
 
   logger.warn(`Directory "${path.basename(target)}" is not empty.`)
 
@@ -27,5 +36,5 @@ export async function resolveTargetDir(directory?: string): Promise<string | nul
     return null
   }
 
-  return target
+  return { targetDir: target, overwrite: true }
 }

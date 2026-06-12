@@ -36,11 +36,13 @@ export function registerInitCommand(program: Command): void {
           process.exit(1)
         }
 
-        const targetDir = await resolveTargetDir(resolvedDirectory)
-        if (!targetDir) return
+        const result = await resolveTargetDir(resolvedDirectory)
+        if (!result) return
+
+        const { targetDir, overwrite } = result
 
         spinner.start(`Scaffolding ${entry.name}...`)
-        await downloadTemplate(entry, targetDir)
+        await downloadTemplate(entry, targetDir, overwrite)
         spinner.succeed(`${entry.name} scaffolded successfully!`)
 
         printPostInstall(entry, targetDir)

@@ -7,6 +7,7 @@ export interface TemplateEntry {
   path: string
   tags: string[]
   version: string
+  nextSteps?: string[]
 }
 
 export interface Registry {
@@ -25,4 +26,5 @@ export interface TemporaConfig {
   description: string
   tags: string[]
   version: string
+  nextSteps?: string[]
 }
