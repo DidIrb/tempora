@@ -28,7 +28,8 @@ function sync() {
     return
   }
 
-  const byLanguage = {}
+  // track by language > category > library for _meta.json generation
+  const tree = {}
   let synced = 0
   let skipped = 0
 
@@ -49,37 +50,47 @@ function sync() {
       continue
     }
 
-    const langDir = path.join(DOCS_TEMPLATES_DIR, parsed.language)
-    fs.mkdirSync(langDir, { recursive: true })
+    const { id, name, language, category, library, description } = parsed
+    const outDir = path.join(DOCS_TEMPLATES_DIR, language, category, library)
+    fs.mkdirSync(outDir, { recursive: true })
 
-    const frontmatter = `---\ntitle: ${parsed.name}\ndescription: ${parsed.description}\n---\n\n`
-    const content = frontmatter + fs.readFileSync(readmePath, 'utf-8')
-    fs.writeFileSync(path.join(langDir, `${parsed.id}.mdx`), content)
+    const frontmatter = `---\ntitle: ${name}\ndescription: ${description}\n---\n\n`
+    fs.writeFileSync(path.join(outDir, `${id}.mdx`), frontmatter + fs.readFileSync(readmePath, 'utf-8'))
 
-    if (!byLanguage[parsed.language]) byLanguage[parsed.language] = []
-    byLanguage[parsed.language].push({ id: parsed.id, name: parsed.name })
+    // build tree for meta files
+    if (!tree[language]) tree[language] = {}
+    if (!tree[language][category]) tree[language][category] = {}
+    if (!tree[language][category][library]) tree[language][category][library] = {}
+    tree[language][category][library][id] = name
 
-    console.log(`  ✔ ${parsed.id} → pages/templates/${parsed.language}/${parsed.id}.mdx`)
+    console.log(`  ✔ ${id} → pages/templates/${language}/${category}/${library}/${id}.mdx`)
     synced++
   }
 
-  for (const [language, templates] of Object.entries(byLanguage)) {
-    const meta = {}
-    for (const t of templates) meta[t.id] = t.name
-    fs.writeFileSync(
-      path.join(DOCS_TEMPLATES_DIR, language, '_meta.json'),
-      JSON.stringify(meta, null, 2)
-    )
+  // write _meta.json files at each level
+  for (const [lang, categories] of Object.entries(tree)) {
+    const langDir = path.join(DOCS_TEMPLATES_DIR, lang)
+    const langMeta = {}
+    for (const [cat, libraries] of Object.entries(categories)) {
+      langMeta[cat] = cat.charAt(0).toUpperCase() + cat.slice(1)
+      const catDir = path.join(langDir, cat)
+      const catMeta = {}
+      for (const [lib, templates] of Object.entries(libraries)) {
+        catMeta[lib] = lib.charAt(0).toUpperCase() + lib.slice(1)
+        const libDir = path.join(catDir, lib)
+        const libMeta = {}
+        for (const [id, name] of Object.entries(templates)) libMeta[id] = name
+        fs.writeFileSync(path.join(libDir, '_meta.json'), JSON.stringify(libMeta, null, 2))
+      }
+      fs.writeFileSync(path.join(catDir, '_meta.json'), JSON.stringify(catMeta, null, 2))
+    }
+    fs.writeFileSync(path.join(langDir, '_meta.json'), JSON.stringify(langMeta, null, 2))
   }
 
+  // root templates _meta.json
   const rootMeta = { index: 'Overview' }
-  for (const language of Object.keys(byLanguage)) {
-    rootMeta[language] = language.charAt(0).toUpperCase() + language.slice(1)
-  }
-  fs.writeFileSync(
-    path.join(DOCS_TEMPLATES_DIR, '_meta.json'),
-    JSON.stringify(rootMeta, null, 2)
-  )
+  for (const lang of Object.keys(tree)) rootMeta[lang] = lang.charAt(0).toUpperCase() + lang.slice(1)
+  fs.writeFileSync(path.join(DOCS_TEMPLATES_DIR, '_meta.json'), JSON.stringify(rootMeta, null, 2))
 
   console.log(`\nDone — ${synced} synced, ${skipped} skipped.\n`)
 }

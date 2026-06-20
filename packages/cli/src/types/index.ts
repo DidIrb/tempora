@@ -3,6 +3,7 @@ export interface TemplateEntry {
   name: string
   language: string
   category: string
+  library: string
   description: string
   path: string
   tags: string[]
@@ -16,6 +17,7 @@ export interface Registry {
   templates: Record<string, TemplateEntry>
   byLanguage: Record<string, string[]>
   byCategory: Record<string, string[]>
+  byLibrary: Record<string, string[]>
 }
 
 export interface TemporaConfig {
@@ -23,6 +25,7 @@ export interface TemporaConfig {
   name: string
   language: string
   category: string
+  library: string
   description: string
   tags: string[]
   version: string

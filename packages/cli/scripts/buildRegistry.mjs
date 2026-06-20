@@ -34,6 +34,7 @@ function build() {
     templates: {},
     byLanguage: {},
     byCategory: {},
+    byLibrary: {},
   }
 
   let valid = 0
@@ -49,7 +50,7 @@ function build() {
       continue
     }
 
-    const required = ['id', 'name', 'language', 'category', 'description', 'tags', 'version']
+    const required = ['id', 'name', 'language', 'category', 'library', 'description', 'tags', 'version']
     const missing = required.filter(k => !parsed[k])
     if (missing.length > 0) {
       console.error(`  ✖ Missing fields [${missing.join(', ')}] in ${configPath}`)
@@ -66,7 +67,10 @@ function build() {
     if (!registry.byCategory[parsed.category]) registry.byCategory[parsed.category] = []
     registry.byCategory[parsed.category].push(parsed.id)
 
-    console.log(`  ✔ ${parsed.id} (${parsed.language} / ${parsed.category})`)
+    if (!registry.byLibrary[parsed.library]) registry.byLibrary[parsed.library] = []
+    registry.byLibrary[parsed.library].push(parsed.id)
+
+    console.log(`  ✔ ${parsed.id} (${parsed.language} / ${parsed.category} / ${parsed.library})`)
     valid++
   }
 
