@@ -1,0 +1,43 @@
+---
+title: CLI Reference
+---
+
+# CLI Reference
+
+## `tempora init`
+
+Scaffold a project from a template.
+
+```bash
+tempora init [template-id] [directory]
+```
+
+| Argument | Description |
+| --- | --- |
+| `template-id` | Template id from registry e.g. `next-tailwind`. Omit for guided mode. |
+| `directory` | Target folder. Use `.` for current directory. Prompted if omitted. |
+
+**Examples**
+
+```bash
+tempora init
+tempora init next-tailwind my-app
+tempora init next-tailwind .
+```
+
+---
+
+## `tempora --version`
+
+```bash
+tempora --version
+tempora -v
+```
+
+---
+
+## `tempora --help`
+
+```bash
+tempora --help
+```

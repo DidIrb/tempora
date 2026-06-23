@@ -1,0 +1,76 @@
+---
+title: Add a Template
+---
+
+# Add a Template
+
+## Folder structure
+
+Templates follow this structure:
+
+```
+templates/
+  <language>/
+    <category>/
+      <library>/
+        <template-id>/
+          tempora.json
+          README.md
+          ... starter files
+```
+
+Example:
+
+```
+templates/typescript/frontend/nextjs/next-tailwind/
+```
+
+## tempora.json
+
+Every template needs a `tempora.json`:
+
+```json
+{
+  "id": "next-tailwind",
+  "name": "Next.js + Tailwind",
+  "language": "typescript",
+  "category": "frontend",
+  "library": "nextjs",
+  "description": "Next.js 14 app router with Tailwind CSS preconfigured.",
+  "tags": ["nextjs", "tailwind", "typescript"],
+  "version": "1.0.0",
+  "nextSteps": ["pnpm install", "pnpm dev"]
+}
+```
+
+| Field | Required | Description |
+| --- | --- | --- |
+| `id` | ✔ | Unique kebab-case identifier |
+| `name` | ✔ | Human readable name |
+| `language` | ✔ | e.g. `typescript`, `python` |
+| `category` | ✔ | e.g. `frontend`, `backend`, `fullstack` |
+| `library` | ✔ | e.g. `nextjs`, `fastapi`, `express` |
+| `description` | ✔ | One sentence description |
+| `tags` | ✔ | Array of relevant tags |
+| `version` | ✔ | Semver string |
+| `nextSteps` | — | Commands printed after scaffold. Defaults to `pnpm install` and `pnpm dev`. |
+
+## README.md
+
+The `README.md` is synced automatically to this docs site on every build. Keep it focused — stack, versions, and how to run the project.
+
+## Verify locally
+
+```bash
+npm run build
+tempora init next-tailwind test-output
+```
+
+## Open a pull request
+
+```bash
+git checkout -b feat/add-your-template
+git add .
+git commit -m "feat(templates): add your-template"
+git push
+```

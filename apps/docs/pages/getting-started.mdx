@@ -1,0 +1,49 @@
+---
+title: Getting Started
+---
+
+# Getting Started
+
+## Requirements
+
+- **Node.js 18+** — [nodejs.org](https://nodejs.org)
+- **git** — [git-scm.com](https://git-scm.com)
+- **npm** — comes with Node.js
+
+## Install
+
+```bash
+npm install -g @tempora/cli
+```
+
+Verify:
+
+```bash
+tempora --version
+```
+
+## Scaffold a project
+
+**Guided mode** — pick language, category, library then template:
+
+```bash
+tempora init
+```
+
+**Direct mode** — if you know the template id:
+
+```bash
+tempora init next-tailwind my-app
+```
+
+**Into current folder:**
+
+```bash
+tempora init next-tailwind .
+```
+
+## After scaffolding
+
+Tempora prints the next steps defined by the template itself. Follow them and your project is ready.
+
+> If the target directory is not empty Tempora will warn you and ask for confirmation before proceeding.
