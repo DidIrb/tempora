@@ -1,0 +1,71 @@
+# Contributing
+
+We welcome contributions of all kinds — new templates, bug fixes, docs improvements, and feature ideas.
+
+## Getting Started
+
+Clone the repo and install dependencies:
+
+```bash
+git clone https://github.com/your-org/tempora
+cd tempora
+pnpm install
+```
+
+Run the CLI in dev mode:
+
+```bash
+pnpm dev
+```
+
+Run the docs site:
+
+```bash
+pnpm docs:dev
+```
+
+---
+
+## Commit Messages
+
+We use [Conventional Commits](https://www.conventionalcommits.org/). Run `pnpm commit` for an interactive prompt.
+
+Valid types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`
+
+```bash
+feat(cli): add tempora init guided flow
+fix(cli): handle non-empty directory edge case
+chore(templates): add python-fastapi template
+```
+
+---
+
+## Adding a Template
+
+1. Create a folder under `templates/<language>/<category>/<library>/<template-id>/`
+2. Add a `tempora.json` with all required fields — see the [Add a Template](/add-template) page for the full schema
+3. Add a `README.md` — this gets synced to the docs site automatically
+4. Run `pnpm registry:build` to update the registry
+5. Run `pnpm docs:dev` to verify it appears in the docs
+6. Commit with `chore(templates): add <template-id>`
+
+---
+
+## Pull Requests
+
+- One feature or fix per PR
+- Title follows conventional commit format
+- Update `ROADMAP.md` checkboxes if a stage item is completed
+- `pnpm lint` must pass — Husky enforces this on commit
+
+---
+
+## Versioning
+
+Tempora uses [Changesets](https://github.com/changesets/changesets). If your change warrants a version bump:
+
+```bash
+pnpm changeset
+```
+
+Commit the generated `.changeset/*.md` file with your changes. Version PRs and npm publishing are handled automatically on merge to `main`.

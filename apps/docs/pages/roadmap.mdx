@@ -1,0 +1,46 @@
+# Roadmap
+
+Tempora is actively developed. Here's what's done and what's coming.
+
+---
+
+## Completed
+
+**CLI Core**
+- `tempora init` — direct and guided mode
+- `tempora info <template>` — template details
+- Anti-overwrite guard
+- Post-install next steps
+- Git sparse checkout — only downloads the template you pick
+- Async non-blocking version checker
+- Dev mode — local file copy, no git needed
+
+**Registry**
+- `buildRegistry.mjs` — auto-builds from `templates/` on every CLI build
+- Indexed by language, category, and library
+
+**Docs Site**
+- Nextra v3 docs site
+- Auto-synced from template READMEs on every build
+- Standalone landing page
+
+---
+
+## In Progress
+
+- Offline and no-git error handling — clean messages when sparse checkout fails
+- JSDoc comments across CLI source files
+- Changeset-based versioning and automated npm publishing
+
+---
+
+## Planned
+
+- More templates — Python, Go, fullstack, backend
+- `tempora update` — update an existing scaffolded project
+- Template search by tag
+- Interactive template preview in the docs site
+
+---
+
+Have a suggestion? [Open an issue on GitHub](https://github.com/your-org/tempora).

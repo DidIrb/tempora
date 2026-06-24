@@ -1,0 +1,70 @@
+# FAQ
+
+## Does Tempora work offline?
+
+No. The `tempora init` command uses git sparse checkout to download the template folder from GitHub. You need an internet connection and `git` installed.
+
+Once scaffolded, your project is fully local and works offline.
+
+---
+
+## What's the difference between direct and guided mode?
+
+**Direct mode** — you know the template ID already:
+```bash
+tempora init next-tailwind my-app
+```
+
+**Guided mode** — Tempora walks you through picking a template step by step:
+```bash
+tempora init my-app
+```
+It prompts for language → category → library → template. A maximum of 4 options are shown at each step. If more exist, a link to the docs site is shown.
+
+---
+
+## Does it clone the entire repo?
+
+No. Tempora uses **git sparse checkout** to download only the specific template folder you pick — nothing else from the repository is downloaded.
+
+---
+
+## What does the `.` argument do?
+
+It scaffolds into the current directory instead of creating a new folder:
+
+```bash
+tempora init next-tailwind .
+```
+
+Tempora will warn and ask for confirmation if the directory is not empty.
+
+---
+
+## How do I see what templates are available?
+
+Browse the [Templates](/templates) page, or use guided mode which lists options at each step.
+
+You can also run:
+```bash
+tempora info <template-id>
+```
+to see details about a specific template.
+
+---
+
+## How do I add my own template?
+
+See the [Add a Template](/add-template) page for the full walkthrough.
+
+---
+
+## What version of Node.js do I need?
+
+Node.js 18 or higher is required. You also need `git` installed and available on your PATH.
+
+---
+
+## How does the docs site stay in sync with templates?
+
+`syncDocs.mjs` runs before every docs build. It walks the `templates/` folder, reads each `README.md`, and writes it as an MDX page under `pages/templates/`. It also generates `_meta.ts` files at every level to keep the sidebar accurate. No manual updates needed when adding a template.
