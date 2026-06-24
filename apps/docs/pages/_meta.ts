@@ -1,0 +1,8 @@
+export default {
+  home: 'Home',
+  'getting-started': 'Getting Started',
+  cli: 'CLI Reference',
+  templates: 'Templates',
+  'add-template': 'Add a Template',
+  changelog: 'Changelog',
+}

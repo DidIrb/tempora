@@ -51,6 +51,11 @@ function sync() {
     }
 
     const { id, name, language, category, library, description } = parsed
+    if (!id || !language || !category || !library) {
+      console.warn(`  ⚠ Missing required fields (id/language/category/library) in ${configPath} — skipping`)
+      skipped++
+      continue
+    }
     const outDir = path.join(DOCS_TEMPLATES_DIR, language, category, library)
     fs.mkdirSync(outDir, { recursive: true })
 
@@ -80,17 +85,17 @@ function sync() {
         const libDir = path.join(catDir, lib)
         const libMeta = {}
         for (const [id, name] of Object.entries(templates)) libMeta[id] = name
-        fs.writeFileSync(path.join(libDir, '_meta.json'), JSON.stringify(libMeta, null, 2))
+        fs.writeFileSync(path.join(libDir, '_meta.ts'), `export default ${JSON.stringify(libMeta, null, 2)}\n`)
       }
-      fs.writeFileSync(path.join(catDir, '_meta.json'), JSON.stringify(catMeta, null, 2))
+      fs.writeFileSync(path.join(catDir, '_meta.ts'), `export default ${JSON.stringify(catMeta, null, 2)}\n`)
     }
-    fs.writeFileSync(path.join(langDir, '_meta.json'), JSON.stringify(langMeta, null, 2))
+    fs.writeFileSync(path.join(langDir, '_meta.ts'), `export default ${JSON.stringify(langMeta, null, 2)}\n`)
   }
 
   // root templates _meta.json
   const rootMeta = { index: 'Overview' }
   for (const lang of Object.keys(tree)) rootMeta[lang] = lang.charAt(0).toUpperCase() + lang.slice(1)
-  fs.writeFileSync(path.join(DOCS_TEMPLATES_DIR, '_meta.json'), JSON.stringify(rootMeta, null, 2))
+  fs.writeFileSync(path.join(DOCS_TEMPLATES_DIR, '_meta.ts'), `export default ${JSON.stringify(rootMeta, null, 2)}\n`)
 
   console.log(`\nDone — ${synced} synced, ${skipped} skipped.\n`)
 }
