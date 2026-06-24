@@ -5,6 +5,17 @@ import type { Registry, TemplateEntry } from '@appTypes'
 
 const MAX_RESULTS = 4
 
+/**
+ * Runs the interactive guided template selection flow.
+ *
+ * Prompts the user step by step: language → category → library → template.
+ * At each step, choices are filtered by the selections already made.
+ * A maximum of 4 templates are shown in the final step — if more exist,
+ * a link to the docs site is printed above the prompt.
+ *
+ * @param registry - The loaded Registry object from dist/registry.json.
+ * @returns The selected TemplateEntry, or null if the user exits or no matches are found.
+ */
 export async function runGuidedSelection(registry: Registry): Promise<TemplateEntry | null> {
   const languages = Object.keys(registry.byLanguage)
 

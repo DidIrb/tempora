@@ -7,6 +7,13 @@ import { config } from '../config.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+/**
+ * Walks up the directory tree from the current file looking for a `templates/` folder.
+ * Used to detect dev mode — when running from the local monorepo, templates are
+ * available on disk and no git clone is needed.
+ *
+ * @returns Absolute path to the templates folder, or null if not found.
+ */
 function findLocalTemplatesDir(): string | null {
   let current = __dirname
   for (let i = 0; i < 6; i++) {
@@ -17,6 +24,14 @@ function findLocalTemplatesDir(): string | null {
   return null
 }
 
+/**
+ * Recursively copies a directory from src to dest.
+ * If overwrite is false, existing files at the destination are skipped.
+ *
+ * @param srcDir - Source directory to copy from.
+ * @param destDir - Destination directory to copy into.
+ * @param overwrite - Whether to overwrite existing files.
+ */
 function copyDirLocal(srcDir: string, destDir: string, overwrite: boolean): void {
   fs.mkdirSync(destDir, { recursive: true })
   for (const entry of fs.readdirSync(srcDir, { withFileTypes: true })) {
@@ -31,25 +46,59 @@ function copyDirLocal(srcDir: string, destDir: string, overwrite: boolean): void
   }
 }
 
+/**
+ * Downloads a template from GitHub using git sparse checkout.
+ * Only the specific template folder is fetched — not the full repository.
+ *
+ * A temporary `.tempora-tmp/` folder is created inside targetDir during the clone
+ * and is always cleaned up in the finally block, even if the clone fails.
+ *
+ * @param templatePath - The registry `path` field, e.g. `templates/typescript/frontend/nextjs/next-tailwind`
+ * @param targetDir - The directory to scaffold into.
+ * @param overwrite - Whether to overwrite existing files.
+ * @throws If git is not installed, there is no internet connection, or the template path is not found in the repo.
+ */
 function cloneTemplateSparse(templatePath: string, targetDir: string, overwrite: boolean): void {
   const repoUrl = `https://github.com/${config.github.org}/${config.github.repo}.git`
   const tmpDir = path.join(targetDir, '.tempora-tmp')
 
+  // Check git is available before attempting anything
+  try {
+    execSync('git --version', { stdio: 'pipe' })
+  } catch {
+    throw new Error(
+      'git is not installed or not available on your PATH.\n' +
+      'Tempora requires git to download templates. Install it from https://git-scm.com and try again.'
+    )
+  }
+
   try {
     fs.mkdirSync(tmpDir, { recursive: true })
 
-    // sparse clone — only fetch the specific template folder
-    execSync(`git clone --filter=blob:none --sparse --depth=1 ${repoUrl} .`, {
-      cwd: tmpDir,
-      stdio: 'pipe',
-    })
+    try {
+      execSync(`git clone --filter=blob:none --sparse --depth=1 ${repoUrl} .`, {
+        cwd: tmpDir,
+        stdio: 'pipe',
+      })
+    } catch {
+      throw new Error(
+        'Could not connect to GitHub to download the template.\n' +
+        'Check your internet connection and try again.'
+      )
+    }
 
-    execSync(`git sparse-checkout set ${templatePath}`, {
-      cwd: tmpDir,
-      stdio: 'pipe',
-    })
+    try {
+      execSync(`git sparse-checkout set ${templatePath}`, {
+        cwd: tmpDir,
+        stdio: 'pipe',
+      })
+    } catch {
+      throw new Error(
+        `Failed to checkout template path "${templatePath}" from the repository.\n` +
+        'The template may have been moved or removed. Run "tempora init" to browse available templates.'
+      )
+    }
 
-    // copy from the cloned sparse folder into targetDir
     const clonedTemplatePath = path.join(tmpDir, templatePath)
     if (!fs.existsSync(clonedTemplatePath)) {
       throw new Error(`Template path "${templatePath}" not found in repository.`)
@@ -57,11 +106,21 @@ function cloneTemplateSparse(templatePath: string, targetDir: string, overwrite:
 
     copyDirLocal(clonedTemplatePath, targetDir, overwrite)
   } finally {
-    // always clean up tmp folder
+    // always clean up tmp folder regardless of success or failure
     fs.rmSync(tmpDir, { recursive: true, force: true })
   }
 }
 
+/**
+ * Downloads a template into the target directory.
+ *
+ * In dev mode (local `templates/` folder detected): copies files directly from disk.
+ * In prod mode (no local templates): uses git sparse checkout from GitHub.
+ *
+ * @param template - The TemplateEntry from the registry.
+ * @param targetDir - The directory to scaffold into.
+ * @param overwrite - Whether to overwrite existing files.
+ */
 export async function downloadTemplate(
   template: TemplateEntry,
   targetDir: string,

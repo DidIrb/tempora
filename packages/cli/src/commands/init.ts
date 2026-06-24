@@ -10,6 +10,19 @@ import {
 } from '@utils'
 import { config } from '../config.js'
 
+/**
+ * Registers the `tempora init` command with the CLI program.
+ *
+ * Supports two modes:
+ * - Direct: `tempora init <template> [directory]` — scaffolds immediately if template ID is known.
+ * - Guided: `tempora init [directory]` — runs interactive prompts (language → category → library → template).
+ *
+ * The `directory` argument defaults to a folder named after the template ID.
+ * Passing `.` scaffolds into the current directory.
+ * A non-empty target directory triggers an overwrite confirmation.
+ *
+ * @param program - The root Commander program instance.
+ */
 export function registerInitCommand(program: Command): void {
   program
     .command('init [template] [directory]')
