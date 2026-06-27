@@ -31,3 +31,6 @@ export interface TemporaConfig {
   version: string
   nextSteps?: string[]
 }
+
+// Injected at build time by tsup — do not reference at runtime
+declare const __CLI_VERSION__: string

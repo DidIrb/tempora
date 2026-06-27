@@ -14,7 +14,7 @@ const config: DocsThemeConfig = {
     </>
   ),
   footer: {
-    text: <span>MIT © {new Date().getFullYear()} Tempora</span>,
+    content: <span>MIT © {new Date().getFullYear()} Tempora</span>,
   },
   sidebar: {
     defaultMenuCollapseLevel: 1,

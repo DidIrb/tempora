@@ -7,6 +7,7 @@ const CLI_ROOT = path.resolve(__dirname, '..')
 const REPO_ROOT = path.resolve(CLI_ROOT, '../..')
 const TEMPLATES_DIR = path.resolve(REPO_ROOT, 'templates')
 const OUTPUT_FILE = path.resolve(CLI_ROOT, 'dist/registry.json')
+const REPO_REGISTRY_FILE = path.resolve(CLI_ROOT, 'registry.json')
 
 function findTemporaConfigs(dir) {
   if (!fs.existsSync(dir)) return []
@@ -75,7 +76,8 @@ function build() {
   }
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(registry, null, 2))
-  console.log(`\nRegistry built — ${valid} template(s), ${skipped} skipped → dist/registry.json\n`)
+  fs.writeFileSync(REPO_REGISTRY_FILE, JSON.stringify(registry, null, 2))
+  console.log(`\nRegistry built — ${valid} template(s), ${skipped} skipped → dist/registry.json + registry.json\n`)
 }
 
 build()

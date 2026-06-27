@@ -1,14 +1,18 @@
 import { Command } from 'commander'
+import { createRequire } from 'module'
 import { registerInitCommand } from './commands/index.js'
 import { registerInfoCommand } from './commands/index.js'
 import { checkVersion } from '@utils'
+
+const require = createRequire(import.meta.url)
+const { version } = require('../package.json') as { version: string }
 
 const program = new Command()
 
 program
   .name('tempora')
   .description('Scaffold projects from curated templates')
-  .version('0.1.0', '-v, --version', 'Show the current version')
+  .version(version, '-v, --version', 'Show the current version')
   .addHelpText('after', `
 Examples:
   $ tempora init next-tailwind my-app

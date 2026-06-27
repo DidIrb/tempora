@@ -80,7 +80,7 @@ importers:
         specifier: ^9.0.0
         version: 9.0.9
       '@types/node':
-        specifier: ^20.0.0
+        specifier: ^20.19.42
         version: 20.19.42
       tsup:
         specifier: ^8.0.0

@@ -13,7 +13,8 @@
   },
   "files": [
     "bin",
-    "dist"
+    "dist",
+    "registry.json"
   ],
   "scripts": {
     "build": "tsup && node scripts/buildRegistry.mjs",
