@@ -42,9 +42,6 @@ jobs:
       - name: Configure npm authentication
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
 
-      - name: Build packages
-        run: pnpm --filter @tempora/cli run build
-
       - name: Generate changelog and version packages
         uses: changesets/action@v1
         with:
@@ -52,6 +49,9 @@ jobs:
           title: "chore(release): version packages [skip ci]"
           version: pnpm changeset version
           publish: false
+
+      - name: Build packages
+        run: pnpm --filter tempora-cli run build
 
       - name: Publish packages
         run: pnpm changeset publish
@@ -63,6 +63,6 @@ jobs:
         uses: actions/create-release@v1
         with:
           tag_name: "v${{ env.VERSION }}"
-          release_name: "@tempora/cli@v${{ env.VERSION }}"
+          release_name: "tempora-cli@v${{ env.VERSION }}"
           draft: false
           prerelease: false
