@@ -5,7 +5,7 @@ A fast, language-agnostic CLI that bootstraps your project from a curated vault 
 ## Install
 
 ```bash
-npm install -g tempora
+npm install -g tempora-cli
 ```
 
 ## Usage

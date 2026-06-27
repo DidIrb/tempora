@@ -17,7 +17,7 @@ const { version: current } = require('../package.json') as { version: string }
  */
 export async function checkVersion(): Promise<void> {
   try {
-    const res = await fetch('https://registry.npmjs.org/tempora/latest', {
+    const res = await fetch('https://registry.npmjs.org/tempora-cli/latest', {
       signal: AbortSignal.timeout(3000),
     })
     if (!res.ok) return
@@ -32,7 +32,7 @@ export async function checkVersion(): Promise<void> {
     if (!isMinorOrMajor) return
 
     logger.warn(`Update available: ${current} → ${latest}`)
-    logger.log('  Run: npm install -g tempora')
+    logger.log('  Run: npm install -g tempora-cli')
     logger.log('')
   } catch {
     // silently ignore — must never crash the CLI

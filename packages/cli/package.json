@@ -1,5 +1,5 @@
 {
-  "name": "tempora",
+  "name": "tempora-cli",
   "version": "0.1.0",
   "description": "Tempora CLI — scaffold projects from curated templates",
   "license": "MIT",
