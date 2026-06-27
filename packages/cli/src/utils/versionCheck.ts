@@ -1,20 +1,9 @@
 import { createRequire } from 'module'
-import { logger } from '@utils'
+import pc from 'picocolors'
 
 const require = createRequire(import.meta.url)
 const { version: current } = require('../package.json') as { version: string }
 
-/**
- * Checks whether a newer version of tempora is available on npm.
- *
- * Runs async and non-blocking — must never throw or crash the CLI.
- * The current version is read at runtime from package.json.
- * The latest version is fetched from the npm registry so it always
- * reflects what is actually published, not just what is on the main branch.
- *
- * Only prompts the user on minor or major updates — patch bumps are silent.
- * If the fetch fails (offline, timeout, npm down), it silently does nothing.
- */
 export async function checkVersion(): Promise<void> {
   try {
     const res = await fetch('https://registry.npmjs.org/tempora-cli/latest', {
@@ -31,9 +20,11 @@ export async function checkVersion(): Promise<void> {
     const isMinorOrMajor = latMajor > curMajor || (latMajor === curMajor && latMinor > curMinor)
     if (!isMinorOrMajor) return
 
-    logger.warn(`Update available: ${current} → ${latest}`)
-    logger.log('  Run: npm install -g tempora-cli')
-    logger.log('')
+    console.log('')
+    console.log('  ' + pc.bgYellow(pc.black(' UPDATE ')) + ' ' + pc.dim(current) + ' → ' + pc.green(pc.bold(latest)))
+    console.log('  ' + pc.dim('Run: ') + pc.cyan('npm install -g tempora-cli'))
+    console.log('  ' + pc.dim('https://www.npmjs.com/package/tempora-cli'))
+    console.log('')
   } catch {
     // silently ignore — must never crash the CLI
   }

@@ -7,6 +7,7 @@ import {
   printPostInstall,
   loadRegistry,
   runGuidedSelection,
+  checkVersion,
 } from '@utils'
 import { config } from '../config.js'
 
@@ -54,11 +55,13 @@ export function registerInitCommand(program: Command): void {
 
         const { targetDir, overwrite } = result
 
-        spinner.start(`Scaffolding ${entry.name}...`)
-        await downloadTemplate(entry, targetDir, overwrite)
+        await new Promise(r => setTimeout(r, 100))
+        spinner.start()
+        await downloadTemplate(entry, targetDir, overwrite, spinner)
         spinner.succeed(`${entry.name} scaffolded successfully!`)
 
         printPostInstall(entry, targetDir)
+        await checkVersion()
       } catch (err) {
         spinner.stop()
         logger.error(err instanceof Error ? err.message : 'Something went wrong.')

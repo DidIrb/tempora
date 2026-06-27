@@ -2,7 +2,6 @@ import { Command } from 'commander'
 import { createRequire } from 'module'
 import { registerInitCommand } from './commands/index.js'
 import { registerInfoCommand } from './commands/index.js'
-import { checkVersion } from '@utils'
 
 const require = createRequire(import.meta.url)
 const { version } = require('../package.json') as { version: string }
@@ -23,7 +22,5 @@ Examples:
 
 registerInitCommand(program)
 registerInfoCommand(program)
-
-checkVersion().catch(() => undefined)
 
 program.parse(process.argv)

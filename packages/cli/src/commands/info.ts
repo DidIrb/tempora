@@ -1,11 +1,11 @@
 import { Command } from 'commander'
-import { logger, loadRegistry } from '@utils'
+import { logger, loadRegistry, checkVersion } from '@utils'
 
 export function registerInfoCommand(program: Command): void {
   program
     .command('info <template>')
     .description('Show details about a specific template')
-    .action((template: string) => {
+    .action(async (template: string) => {
       try {
         const registry = loadRegistry()
         const entry = registry.templates[template]
@@ -34,6 +34,8 @@ export function registerInfoCommand(program: Command): void {
           }
           logger.log('')
         }
+
+        await checkVersion()
       } catch (err) {
         logger.error(err instanceof Error ? err.message : 'Something went wrong.')
         process.exit(1)
