@@ -75,6 +75,7 @@ function build() {
     valid++
   }
 
+  fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true })
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(registry, null, 2))
   fs.writeFileSync(REPO_REGISTRY_FILE, JSON.stringify(registry, null, 2))
   console.log(`\nRegistry built — ${valid} template(s), ${skipped} skipped → dist/registry.json + registry.json\n`)

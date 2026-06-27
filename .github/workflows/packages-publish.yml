@@ -1,0 +1,66 @@
+name: Publish Packages and Create Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".changeset/**"
+
+jobs:
+  Release:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Cache PNPM dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure npm authentication
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+
+      - name: Build packages
+        run: pnpm --filter @tempora/cli run build
+
+      - name: Generate changelog and version packages
+        uses: changesets/action@v1
+        with:
+          commit: "chore(release): version packages [skip ci]"
+          title: "chore(release): version packages [skip ci]"
+          version: pnpm changeset version
+          publish: false
+
+      - name: Publish packages
+        run: pnpm changeset publish
+
+      - name: Extract version number
+        run: echo "VERSION=$(jq -r '.version' packages/cli/package.json)" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: "v${{ env.VERSION }}"
+          release_name: "@tempora/cli@v${{ env.VERSION }}"
+          draft: false
+          prerelease: false
