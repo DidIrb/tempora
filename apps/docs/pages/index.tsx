@@ -9,7 +9,7 @@ export default function HomePage() {
         <div style={{display:'flex',gap:'1.5rem'}}>
           <Link href="/home" style={{color:'#444',textDecoration:'none',fontSize:'0.9rem',fontWeight:500}}>Docs</Link>
           <Link href="/templates" style={{color:'#444',textDecoration:'none',fontSize:'0.9rem',fontWeight:500}}>Templates</Link>
-          <a href="https://github.com/your-org/tempora" target="_blank" rel="noreferrer" style={{color:'#444',textDecoration:'none',fontSize:'0.9rem',fontWeight:500}}>GitHub</a>
+          <a href="https://github.com/DidIrb/tempora" target="_blank" rel="noreferrer" style={{color:'#444',textDecoration:'none',fontSize:'0.9rem',fontWeight:500}}>GitHub</a>
         </div>
       </nav>
 
@@ -23,7 +23,7 @@ export default function HomePage() {
           Tempora is a fast, language-agnostic CLI that bootstraps your project from a curated vault of community templates — no setup, no guesswork.
         </p>
         <div style={{backgroundColor:'#f5f5f5',borderRadius:'6px',padding:'0.6rem 1rem',marginBottom:'0.5rem',width:'100%',maxWidth:'400px',textAlign:'left'}}>
-          <code style={{fontFamily:'monospace',fontSize:'0.9rem',color:'#111'}}>npm install -g @tempora/cli</code>
+          <code style={{fontFamily:'monospace',fontSize:'0.9rem',color:'#111'}}>npm install -g tempora</code>
         </div>
         <div style={{backgroundColor:'#f5f5f5',borderRadius:'6px',padding:'0.6rem 1rem',marginBottom:'1.5rem',width:'100%',maxWidth:'400px',textAlign:'left'}}>
           <code style={{fontFamily:'monospace',fontSize:'0.9rem',color:'#111'}}>tempora init</code>
@@ -58,7 +58,7 @@ export default function HomePage() {
         <h2 style={{fontSize:'1.75rem',fontWeight:800,letterSpacing:'-0.03em',marginBottom:'2rem',textAlign:'center'}}>How it works</h2>
         <div style={{display:'flex',flexDirection:'column',gap:'2rem'}}>
           {[
-            {n:1,title:'Install the CLI',desc:'Install Tempora globally via npm. Requires Node.js 18+ and git.',code:'npm install -g @tempora/cli'},
+            {n:1,title:'Install the CLI',desc:'Install Tempora globally via npm. Requires Node.js 18+ and git.',code:'npm install -g tempora'},
             {n:2,title:'Pick a template',desc:'Run tempora init for guided mode or go direct if you know the template id.',code:'tempora init next-tailwind my-app'},
             {n:3,title:'Start building',desc:'Tempora prints exactly what to run next based on the template.',code:'cd my-app && pnpm install && pnpm dev'},
           ].map(s => (
@@ -78,7 +78,7 @@ export default function HomePage() {
 
       <footer style={{borderTop:'1px solid #eee',padding:'1.5rem 2rem',textAlign:'center'}}>
         <p style={{fontSize:'0.85rem',color:'#888',margin:0}}>
-          MIT © {new Date().getFullYear()} Tempora · <a href="https://github.com/your-org/tempora" target="_blank" rel="noreferrer" style={{color:'#888',textDecoration:'none'}}>GitHub</a>
+          MIT © {new Date().getFullYear()} Tempora · <a href="https://github.com/DidIrb/tempora" target="_blank" rel="noreferrer" style={{color:'#888',textDecoration:'none'}}>GitHub</a>
         </p>
       </footer>
 
