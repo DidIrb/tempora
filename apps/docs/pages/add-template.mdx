@@ -25,9 +25,11 @@ Example:
 templates/typescript/frontend/nextjs/next-tailwind/
 ```
 
+---
+
 ## tempora.json
 
-Every template needs a `tempora.json`:
+Every template needs a `tempora.json` — this is what registers it in the CLI registry.
 
 ```json
 {
@@ -45,26 +47,57 @@ Every template needs a `tempora.json`:
 
 | Field | Required | Description |
 | --- | --- | --- |
-| `id` | ✔ | Unique kebab-case identifier |
-| `name` | ✔ | Human readable name |
-| `language` | ✔ | e.g. `typescript`, `python` |
-| `category` | ✔ | e.g. `frontend`, `backend`, `fullstack` |
-| `library` | ✔ | e.g. `nextjs`, `fastapi`, `express` |
-| `description` | ✔ | One sentence description |
-| `tags` | ✔ | Array of relevant tags |
-| `version` | ✔ | Semver string |
-| `nextSteps` | — | Commands printed after scaffold. Defaults to `pnpm install` and `pnpm dev`. |
+| `id` | ✔ | Unique kebab-case identifier — this is what users type in `tempora init <id>`. Must be unique across ALL templates. |
+| `name` | ✔ | Human readable name shown in the guided selector. |
+| `language` | ✔ | Primary language e.g. `typescript`, `javascript`, `python`, `rust`. |
+| `category` | ✔ | Project category e.g. `frontend`, `backend`, `fullstack`, `cli`, `library`. |
+| `library` | ✔ | Framework or library e.g. `nextjs`, `fastapi`, `express`, `angular`. |
+| `description` | ✔ | One sentence description shown in the CLI. |
+| `tags` | ✔ | Array of relevant tags for filtering. |
+| `version` | ✔ | The template's own version in semver format e.g. `1.0.0`. Bump this when you update the template files — it is independent of the CLI version. |
+| `nextSteps` | — | Commands printed after scaffolding e.g. `pnpm install`, `pnpm dev`. |
+
+> **Important:** The `id` is the unique identifier for your template. If two templates share the same `id` the build will fail and stop. Choose something specific e.g. `next-tailwind`, `express-prisma-pg`, `angular-standalone`.
+
+---
 
 ## README.md
 
-The `README.md` is synced automatically to this docs site on every build. Keep it focused — stack, versions, and how to run the project.
+The `README.md` is synced automatically to this docs site on every build. It must include a **Quick Start** section showing the install command:
+
+```md
+# Template Name
+
+Short description.
+
+## Quick Start
+
+npx tempora-cli init <template-id> my-app
+
+## Stack
+
+- List technologies and versions
+
+## Getting Started
+
+pnpm install
+pnpm dev
+```
+
+You can add as much detail as you want beyond that — configuration guides, environment variables, deployment instructions, screenshots.
+
+---
 
 ## Verify locally
 
 ```bash
-npm run build
-tempora init next-tailwind test-output
+pnpm build
+tempora init <template-id> test-output
 ```
+
+The build will validate your `tempora.json`, check for duplicate IDs, and sync your README to the docs. If it passes you're good.
+
+---
 
 ## Open a pull request
 

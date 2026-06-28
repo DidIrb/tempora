@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "build": "tsup && node scripts/buildRegistry.mjs",
-    "dev": "tsx src/index.ts",
+    "dev": "tsup && node scripts/buildRegistry.mjs",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
