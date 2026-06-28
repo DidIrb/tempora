@@ -1,5 +1,11 @@
 # tempora-cli
 
+## 0.1.5
+
+### Patch Changes
+
+- cd9111f: add remote registry fetch, update command and contributing guide
+
 ## 0.1.4
 
 ### Patch Changes

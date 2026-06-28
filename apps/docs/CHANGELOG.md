@@ -1,5 +1,11 @@
 # @tempora/docs
 
+## 0.1.2
+
+### Patch Changes
+
+- cd9111f: add remote registry fetch, update command and contributing guide
+
 ## 0.1.1
 
 ### Patch Changes
