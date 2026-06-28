@@ -7,7 +7,7 @@ export function registerInfoCommand(program: Command): void {
     .description('Show details about a specific template')
     .action(async (template: string) => {
       try {
-        const registry = loadRegistry()
+        const registry = await loadRegistry()
         const entry = registry.templates[template]
 
         if (!entry) {
