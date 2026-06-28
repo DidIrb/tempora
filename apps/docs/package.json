@@ -1,6 +1,6 @@
 {
   "name": "@tempora/docs",
-  "version": "0.1.2",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "node scripts/syncDocs.mjs && next dev",
