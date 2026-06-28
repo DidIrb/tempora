@@ -11,6 +11,10 @@
   "bin": {
     "tempora": "bin/tempora.js"
   },
+  "homepage": "https://tempora.irbaye.com",
+  "repository": {
+    "url": "https://github.com/didirb/tempora"
+  },
   "files": [
     "bin",
     "dist",
