@@ -1,5 +1,11 @@
 # tempora-cli
 
+## 0.1.4
+
+### Patch Changes
+
+- ef632e7: Ensuring registry.json is acquired from the remote repository to avoid users needing to install package every signle time, updated and testing it to see if it works as intended
+
 ## 0.1.3
 
 ### Patch Changes
