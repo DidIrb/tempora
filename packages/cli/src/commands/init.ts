@@ -32,7 +32,7 @@ export function registerInitCommand(program: Command): void {
       const spinner = ora()
 
       try {
-        const registry = loadRegistry()
+        const registry = await loadRegistry()
 
         let resolvedTemplate = template
         let resolvedDirectory = directory

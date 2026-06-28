@@ -1,7 +1,6 @@
 import { Command } from 'commander'
 import { createRequire } from 'module'
-import { registerInitCommand } from './commands/index.js'
-import { registerInfoCommand } from './commands/index.js'
+import { registerInitCommand, registerInfoCommand, registerUpdateCommand } from './commands/index.js'
 
 const require = createRequire(import.meta.url)
 const { version } = require('../package.json') as { version: string }
@@ -18,9 +17,11 @@ Examples:
   $ tempora init next-tailwind .
   $ tempora init
   $ tempora info next-tailwind
+  $ tempora update
   `)
 
 registerInitCommand(program)
 registerInfoCommand(program)
+registerUpdateCommand(program)
 
 program.parse(process.argv)

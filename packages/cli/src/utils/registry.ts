@@ -5,17 +5,27 @@ import type { Registry } from '@appTypes'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+const REMOTE_REGISTRY_URL =
+  'https://raw.githubusercontent.com/DidIrb/tempora/main/packages/cli/registry.json'
+
 /**
- * Loads the compiled registry.json from the CLI dist folder.
- *
- * The registry is built by `buildRegistry.mjs` at CLI build time and bundled
- * into `dist/` alongside the compiled CLI code. It is never fetched at runtime —
- * no network call is made here.
- *
- * @throws If registry.json is missing (i.e. CLI was not built yet).
- * @returns The full Registry object with templates, byLanguage, byCategory, byLibrary indexes.
+ * Loads the registry — tries GitHub raw first for latest templates,
+ * falls back to the bundled dist/registry.json if offline or fetch fails.
  */
-export function loadRegistry(): Registry {
+export async function loadRegistry(): Promise<Registry> {
+  try {
+    const res = await fetch(REMOTE_REGISTRY_URL, {
+      signal: AbortSignal.timeout(4000),
+    })
+    if (res.ok) {
+      const data = await res.json()
+      return data as Registry
+    }
+  } catch {
+    // fall through to local
+    console.log("Failed")
+  }
+
   const registryPath = path.resolve(__dirname, './registry.json')
   if (!fs.existsSync(registryPath)) {
     throw new Error('Registry not found. Please rebuild the CLI with npm run build.')
