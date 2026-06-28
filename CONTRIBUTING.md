@@ -1,96 +1,107 @@
 # Contributing to Tempora
 
-## Commit Messages
-
-We use [Conventional Commits](https://www.conventionalcommits.org/). Run `pnpm commit` to use the interactive commitizen prompt.
-
-Valid types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`
-
-Examples:
-```
-feat(cli): add tempora init guided flow
-fix(cli): handle non-empty directory edge case
-docs: update MASTER.md with registry conventions
-chore(templates): add python-fastapi template
-```
-
----
-
-## Code Rules
-
-- TypeScript strict mode — no `any`
-- No `console.log` in production code — use `logger` from `@utils`
-- Path aliases only (`@appTypes`, `@utils`, `@shared`) — no relative imports outside the same folder
-- Every new folder must have an `index.ts` barrel file
-- File edits use exact string replacements — never rewrite entire files unless creating new ones
-- Build only what is asked — no scope creep
-
----
-
-## Branch Naming
-
-```
-feat/short-description
-fix/short-description
-chore/short-description
-```
-
----
-
-## Pull Requests
-
-- One feature or fix per PR
-- Title follows conventional commit format
-- Update `ROADMAP.md` checkboxes if a stage item is completed
-- Run `pnpm lint` before opening a PR — Husky enforces this on commit anyway
-
----
-
-## Versioning
-
-Tempora uses [Changesets](https://github.com/changesets/changesets) to manage versions and changelogs.
-
-When your change warrants a version bump:
-
-```bash
-pnpm changeset
-```
-
-Follow the prompts — select the package (`@tempora/cli`), the bump type (`patch`, `minor`, `major`), and write a summary. Commit the generated `.changeset/*.md` file alongside your changes.
-
-Version PRs and npm publishing are handled automatically by the GitHub Actions workflow on merge to `main`.
-
----
+Thank you for contributing! This guide explains how to add a new template to the Tempora registry.
 
 ## Adding a Template
 
-1. Create a folder under `templates/<language>/<category>/<library>/<template-id>/`
+### Folder Structure
 
-   Example:
-   ```
-   templates/typescript/frontend/nextjs/next-tailwind/
-   ```
+Templates live under the `templates/` directory, organized by language, category, and library:
 
-2. Add a `tempora.json` with all required fields:
+```
+templates/
+  <language>/
+    <category>/
+      <library>/
+        <template-id>/
+          tempora.json
+          README.md
+          ... (optional template files)
+```
 
-   ```json
-   {
-     "id": "your-template-id",
-     "name": "Human Readable Name",
-     "language": "typescript",
-     "category": "frontend",
-     "library": "nextjs",
-     "description": "Short description of what this template sets up.",
-     "tags": ["nextjs", "tailwind"],
-     "version": "1.0.0",
-     "nextSteps": ["pnpm install", "pnpm dev"]
-   }
-   ```
+Example:
+```
+templates/
+  typescript/
+    frontend/
+      nextjs/
+        next-tailwind/
+          tempora.json
+          README.md
+```
 
-3. Add a `README.md` — this gets synced to the docs site automatically on every build.
+### tempora.json
 
-4. Run `pnpm registry:build` to update `registry.json`.
+Every template must have a `tempora.json` file. This is the template's metadata and is used to register it in the CLI.
 
-5. Run `pnpm docs:dev` to verify the template appears in the docs site.
+```json
+{
+  "id": "next-tailwind",
+  "name": "Next.js + Tailwind",
+  "language": "typescript",
+  "category": "frontend",
+  "library": "nextjs",
+  "description": "Next.js 14 app router with Tailwind CSS and Prettier preconfigured.",
+  "tags": ["nextjs", "tailwind", "typescript", "react"],
+  "version": "1.0.0",
+  "nextSteps": ["pnpm install", "pnpm dev"]
+}
+```
 
-6. Commit with `chore(templates): add <template-id>`.
+#### Fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| id | Yes | Unique identifier used in tempora init <id>. Must be unique across ALL templates. |
+| name | Yes | Human readable name shown in the guided selector. |
+| language | Yes | Primary language e.g. typescript, javascript, python, rust. |
+| category | Yes | Project category e.g. frontend, backend, fullstack, cli, library. |
+| library | Yes | Framework or library e.g. nextjs, express, angular, fastapi. |
+| description | Yes | Short one-line description shown in the CLI. |
+| tags | Yes | Array of searchable tags. |
+| version | Yes | Template version e.g. 1.0.0. |
+| nextSteps | No | Array of commands shown after scaffolding e.g. pnpm install, pnpm dev. |
+
+The id field is the unique identifier for your template. If two templates share the same id, the build will fail. Choose something descriptive and specific e.g. next-tailwind, express-prisma-pg, angular-starter.
+
+### README.md
+
+Every template must have a README.md. This is displayed in the docs and shown to users after scaffolding.
+
+The README must include a Quick Start section showing the tempora init command:
+
+# Template Name
+
+Short description of what this template includes.
+
+## Quick Start
+
+npx tempora-cli init <your-template-id> my-app
+
+## Stack
+
+List the main technologies
+
+## Getting Started
+
+pnpm install
+pnpm dev
+
+You can add as much detail as you want beyond that.
+
+### Testing Locally
+
+Before submitting a PR, run the build to confirm your template is picked up:
+
+```bash
+pnpm build
+```
+
+The build will validate your tempora.json fields, check for duplicate IDs and stop if found, register your template in registry.json, and sync your README into the docs.
+
+### Submitting a PR
+
+1. Fork the repo
+2. Add your template under templates/
+3. Run pnpm build and confirm it passes
+4. Open a PR with a clear description of what the template includes

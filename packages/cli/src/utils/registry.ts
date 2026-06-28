@@ -22,13 +22,12 @@ export async function loadRegistry(): Promise<Registry> {
       return data as Registry
     }
   } catch {
-    // fall through to local
-    console.log("Failed")
+    process.stdout.write('  Using local registry (could not reach GitHub)\n')
   }
 
   const registryPath = path.resolve(__dirname, './registry.json')
   if (!fs.existsSync(registryPath)) {
-    throw new Error('Registry not found. Please rebuild the CLI with npm run build.')
+    throw new Error('Registry not found. Please reinstall: npm install -g tempora-cli')
   }
   const raw = fs.readFileSync(registryPath, 'utf-8')
   return JSON.parse(raw) as Registry

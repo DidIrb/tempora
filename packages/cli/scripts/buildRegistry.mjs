@@ -59,6 +59,13 @@ function build() {
       continue
     }
 
+    if (registry.templates[parsed.id]) {
+      console.error(`  ✖ Duplicate template id "${parsed.id}" found in:`)
+      console.error(`      ${configPath}`)
+      console.error(`    The id must be unique across all templates. Build stopped.`)
+      process.exit(1)
+    }
+
     const relativePath = path.relative(REPO_ROOT, path.dirname(configPath)).replace(/\\/g, '/')
     registry.templates[parsed.id] = { ...parsed, path: relativePath }
 

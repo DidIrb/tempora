@@ -33,6 +33,7 @@ function sync() {
   let synced = 0
   let skipped = 0
 
+  const seenIds = {}
   for (const configPath of configPaths) {
     const readmePath = path.join(path.dirname(configPath), 'README.md')
     if (!fs.existsSync(readmePath)) {
@@ -56,6 +57,14 @@ function sync() {
       skipped++
       continue
     }
+
+    if (seenIds[id]) {
+      console.error(`  ✖ Duplicate template id "${id}" found in:`)
+      console.error(`      ${configPath}`)
+      console.error(`    The id must be unique across all templates. Sync stopped.`)
+      process.exit(1)
+    }
+    seenIds[id] = configPath
     const outDir = path.join(DOCS_TEMPLATES_DIR, language, category, library)
     fs.mkdirSync(outDir, { recursive: true })
 
