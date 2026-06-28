@@ -3,4 +3,4 @@
 "@tempora/docs": patch
 ---
 
-testing to see if it publishes properly
+removed and attempting to publish it again
