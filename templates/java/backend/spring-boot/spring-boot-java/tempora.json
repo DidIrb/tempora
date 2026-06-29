@@ -1,0 +1,11 @@
+{
+  "id": "spring-boot-java",
+  "name": "Spring Boot Java",
+  "language": "java",
+  "category": "backend",
+  "library": "spring-boot",
+  "description": "A standard Spring Boot REST API with Java, Spring Security, and Maven.",
+  "tags": ["spring-boot", "java", "backend", "api", "rest", "maven"],
+  "version": "1.0.0",
+  "nextSteps": ["mvn install", "mvn spring-boot:run"]
+}

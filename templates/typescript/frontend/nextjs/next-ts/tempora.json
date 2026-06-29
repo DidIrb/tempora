@@ -1,0 +1,11 @@
+{
+  "id": "next-ts",
+  "name": "Next.js TypeScript",
+  "language": "typescript",
+  "category": "frontend",
+  "library": "nextjs",
+  "description": "A Next.js app with the App Router and TypeScript, ready for full-stack development.",
+  "tags": ["nextjs", "typescript", "frontend", "react", "fullstack"],
+  "version": "1.0.0",
+  "nextSteps": ["pnpm install", "pnpm dev"]
+}

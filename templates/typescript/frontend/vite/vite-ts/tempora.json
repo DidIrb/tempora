@@ -1,0 +1,11 @@
+{
+  "id": "vite-ts",
+  "name": "Vite TypeScript",
+  "language": "typescript",
+  "category": "frontend",
+  "library": "vite",
+  "description": "A fast Vite project with TypeScript, ideal for lightweight SPAs and prototypes.",
+  "tags": ["vite", "typescript", "frontend", "spa"],
+  "version": "1.0.0",
+  "nextSteps": ["pnpm install", "pnpm dev"]
+}

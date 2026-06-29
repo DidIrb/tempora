@@ -1,0 +1,11 @@
+{
+  "id": "angular-ts",
+  "name": "Angular TypeScript",
+  "language": "typescript",
+  "category": "frontend",
+  "library": "angular",
+  "description": "A standard Angular application scaffolded with the Angular CLI and TypeScript.",
+  "tags": ["angular", "typescript", "frontend", "spa"],
+  "version": "1.0.0",
+  "nextSteps": ["pnpm install", "pnpm start"]
+}

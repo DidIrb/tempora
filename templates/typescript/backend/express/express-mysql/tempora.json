@@ -1,0 +1,11 @@
+{
+  "id": "express-mysql",
+  "name": "Express MySQL TypeScript",
+  "language": "typescript",
+  "category": "backend",
+  "library": "express",
+  "description": "Express REST API with MySQL, Prisma ORM, JWT auth, Swagger docs, and Docker support.",
+  "tags": ["express", "typescript", "backend", "mysql", "prisma", "jwt", "rest", "swagger", "docker"],
+  "version": "1.0.0",
+  "nextSteps": ["docker compose up", "open http://localhost:3000/api/docs"]
+}

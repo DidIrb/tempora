@@ -1,0 +1,11 @@
+{
+  "id": "spring-boot-ts",
+  "name": "Spring Boot TypeScript",
+  "language": "typescript",
+  "category": "backend",
+  "library": "spring-boot",
+  "description": "A Spring Boot-inspired TypeScript backend using NestJS conventions and structure.",
+  "tags": ["spring-boot", "nestjs", "typescript", "backend", "api"],
+  "version": "1.0.0",
+  "nextSteps": ["pnpm install", "pnpm dev"]
+}

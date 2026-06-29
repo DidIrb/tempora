@@ -1,0 +1,11 @@
+{
+  "id": "express-ts",
+  "name": "Express TypeScript",
+  "language": "typescript",
+  "category": "backend",
+  "library": "express",
+  "description": "A minimal Express.js REST API server built with TypeScript.",
+  "tags": ["express", "typescript", "backend", "api", "rest"],
+  "version": "1.0.0",
+  "nextSteps": ["pnpm install", "pnpm dev"]
+}
