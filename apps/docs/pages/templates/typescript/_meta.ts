@@ -1,4 +1,4 @@
 export default {
-  "frontend": "Frontend",
-  "fullstack": "Fullstack"
+  "backend": "Backend",
+  "frontend": "Frontend"
 }

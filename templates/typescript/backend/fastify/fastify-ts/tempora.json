@@ -1,0 +1,11 @@
+{
+  "id": "fastify-ts",
+  "name": "Fastify TypeScript",
+  "language": "typescript",
+  "category": "backend",
+  "library": "fastify",
+  "description": "A high-performance Fastify REST API server built with TypeScript.",
+  "tags": ["fastify", "typescript", "backend", "api", "rest"],
+  "version": "1.0.0",
+  "nextSteps": ["pnpm install", "pnpm dev"]
+}

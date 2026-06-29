@@ -1,0 +1,161 @@
+---
+title: Express MySQL TypeScript
+description: Express REST API with MySQL, Prisma ORM, JWT auth, Swagger docs, and Docker support.
+---
+
+# Express MySQL TypeScript
+
+Express REST API with MySQL, Prisma ORM, JWT authentication, Swagger docs, and Docker support.
+
+## Quick Start
+
+```bash
+npx tempora-cli init express-mysql my-app
+```
+
+## Stack
+
+- Express 4
+- TypeScript 5
+- Prisma 5
+- MySQL 8
+- mysql2
+- JSON Web Tokens (jsonwebtoken)
+- Swagger UI (swagger-ui-express + swagger-jsdoc)
+- Docker + Docker Compose
+- Node.js 20
+
+## Running with Docker (Recommended)
+
+> Docker is the easiest way to run this — it starts both the app and MySQL for you with one command.
+
+### Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+
+### Steps
+
+```bash
+# 1. Start everything (MySQL + app)
+docker compose up
+
+# 2. On first run only — run migrations in a second terminal
+docker exec express_mysql_app pnpm prisma migrate dev --name init
+
+# 3. Visit the API docs
+open http://localhost:3000/api/docs
+```
+
+To stop everything:
+
+```bash
+docker compose down
+```
+
+To stop and wipe the database:
+
+```bash
+docker compose down -v
+```
+
+## Running Locally (Without Docker)
+
+### Prerequisites
+- Node.js 20+
+- pnpm
+- MySQL 8 running locally
+
+```bash
+pnpm install
+cp .env.example .env
+# Edit .env with your local MySQL credentials
+pnpm prisma migrate dev --name init
+pnpm dev
+```
+
+Server running at http://localhost:3000
+
+## API Docs (Swagger)
+
+Once the server is running, visit:
+
+```
+http://localhost:3000/api/docs
+```
+
+You can test every endpoint directly from the browser — no extra tools needed.
+
+## Testing the API Manually
+
+### 1. Sign up
+
+```bash
+curl -X POST http://localhost:3000/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Jane","email":"jane@example.com","password":"secret123"}'
+```
+
+Copy the `token` from the response.
+
+### 2. Login
+
+```bash
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"jane@example.com","password":"secret123"}'
+```
+
+### 3. Create a Todo
+
+```bash
+curl -X POST http://localhost:3000/api/todos \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -d '{"title":"Buy groceries"}'
+```
+
+### 4. Get all Todos
+
+```bash
+curl http://localhost:3000/api/todos \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
+### 5. Update a Todo
+
+```bash
+curl -X PUT http://localhost:3000/api/todos/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -d '{"completed":true}'
+```
+
+### 6. Delete a Todo
+
+```bash
+curl -X DELETE http://localhost:3000/api/todos/1 \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
+## API Routes
+
+### Auth
+| Method | Route | Access |
+|--------|-------|--------|
+| POST | /api/auth/signup | Public |
+| POST | /api/auth/login | Public |
+
+### Todos
+| Method | Route | Access |
+|--------|-------|--------|
+| GET | /api/todos | Protected |
+| POST | /api/todos | Protected |
+| PUT | /api/todos/:id | Protected |
+| DELETE | /api/todos/:id | Protected |
+
+## Environment Variables
+
+See `.env.example` for all required variables.
+
+---
+
+Documentation: [tempora.irbaye.com](https://tempora.irbaye.com)

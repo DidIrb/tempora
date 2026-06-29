@@ -1,0 +1,27 @@
+# Vite TypeScript
+
+A fast Vite project with TypeScript, ideal for lightweight SPAs and prototypes.
+
+## Quick Start
+
+```bash
+npx tempora-cli init vite-ts my-app
+```
+
+## Stack
+
+- Vite 5
+- TypeScript 5
+
+## Getting Started
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Open http://localhost:5173
+
+---
+
+Documentation: [tempora.irbaye.com](https://tempora.irbaye.com)

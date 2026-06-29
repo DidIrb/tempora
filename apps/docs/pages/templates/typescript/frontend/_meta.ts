@@ -1,4 +1,5 @@
 export default {
   "angular": "Angular",
-  "nextjs": "Nextjs"
+  "nextjs": "Nextjs",
+  "vite": "Vite"
 }

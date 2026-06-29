@@ -1,3 +1,3 @@
 export default {
-  "angular-starter": "Angular Starter"
+  "angular-ts": "Angular TypeScript"
 }

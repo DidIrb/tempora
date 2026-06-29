@@ -1,0 +1,28 @@
+# Spring Boot TypeScript
+
+A Spring Boot-inspired TypeScript backend using NestJS conventions and structure.
+
+## Quick Start
+
+```bash
+npx tempora-cli init spring-boot-ts my-app
+```
+
+## Stack
+
+- NestJS 10
+- TypeScript 5
+- Node.js 20
+
+## Getting Started
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Server running at http://localhost:3000
+
+---
+
+Documentation: [tempora.irbaye.com](https://tempora.irbaye.com)

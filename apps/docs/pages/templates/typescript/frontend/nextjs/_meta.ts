@@ -1,3 +1,3 @@
 export default {
-  "next-tailwind": "Next.js + Tailwind"
+  "next-ts": "Next.js TypeScript"
 }
