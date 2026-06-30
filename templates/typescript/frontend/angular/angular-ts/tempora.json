@@ -4,8 +4,8 @@
   "language": "typescript",
   "category": "frontend",
   "library": "angular",
-  "description": "A standard Angular application scaffolded with the Angular CLI and TypeScript.",
-  "tags": ["angular", "typescript", "frontend", "spa"],
+  "description": "Angular + Tailwind frontend with JWT auth, route guards, and Todo CRUD.",
+  "tags": ["angular", "typescript", "frontend", "tailwind", "jwt", "standalone-components"],
   "version": "1.0.0",
-  "nextSteps": ["pnpm install", "pnpm start"]
+  "nextSteps": ["pnpm install", "cp .env.example .env", "pnpm start"]
 }
