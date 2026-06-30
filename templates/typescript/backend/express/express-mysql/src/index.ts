@@ -8,17 +8,15 @@ import { config, swaggerSpec } from '@shared';
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: config.corsOrigin }));
 app.use(express.json());
 
-// Swagger UI — available at /api/docs
+// Swagger UI
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Routes
 app.use('/api/auth', authRouter);
 app.use('/api/todos', todoRouter);
 
-// Global error handler — must be last
 app.use(errorHandler);
 
 app.listen(config.port, () => {

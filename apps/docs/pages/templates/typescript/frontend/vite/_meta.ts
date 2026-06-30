@@ -1,3 +1,3 @@
 export default {
-  "vite-ts": "Vite TypeScript"
+  "vite-ts": "Vite React TypeScript"
 }

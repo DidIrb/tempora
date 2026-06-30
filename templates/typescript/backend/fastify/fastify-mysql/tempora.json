@@ -1,0 +1,11 @@
+{
+  "id": "fastify-mysql",
+  "name": "Fastify MySQL TypeScript",
+  "language": "typescript",
+  "category": "backend",
+  "library": "fastify",
+  "description": "Fastify REST API with MySQL, Prisma ORM, JWT auth, Swagger docs, and Docker support.",
+  "tags": ["fastify", "typescript", "backend", "mysql", "prisma", "jwt", "rest", "swagger", "docker"],
+  "version": "1.0.0",
+  "nextSteps": ["docker compose up", "open http://localhost:3000/api/docs"]
+}

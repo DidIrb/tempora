@@ -1,11 +1,11 @@
 {
   "id": "vite-ts",
-  "name": "Vite TypeScript",
+  "name": "Vite React TypeScript",
   "language": "typescript",
   "category": "frontend",
   "library": "vite",
-  "description": "A fast Vite project with TypeScript, ideal for lightweight SPAs and prototypes.",
-  "tags": ["vite", "typescript", "frontend", "spa"],
+  "description": "Vite + React + Tailwind frontend with JWT auth, protected routes, and Todo CRUD.",
+  "tags": ["vite", "react", "typescript", "frontend", "tailwind", "jwt", "axios"],
   "version": "1.0.0",
-  "nextSteps": ["pnpm install", "pnpm dev"]
+  "nextSteps": ["pnpm install", "cp .env.example .env", "pnpm dev"]
 }
