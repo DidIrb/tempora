@@ -1,5 +1,11 @@
 # @tempora/docs
 
+## 0.2.0
+
+### Minor Changes
+
+- 7db49b1: Full set of templates initiated finally
+
 ## 0.1.3
 
 ### Patch Changes
